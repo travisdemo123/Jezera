@@ -2,8 +2,8 @@ language: ruby
 rvm:
   - 2.7.6
 before_install:
-  # Decrypt the SSH key
-  - openssl aes-256-cbc -d -in id_rsa.enc -out ~/.ssh/id_rsa -k my_secure_password
+  # Decode the SSH key from the environment variable
+  - echo "$SSH_KEY" | base64 --decode > ~/.ssh/id_rsa
   # Set the correct permissions for the SSH key
   - chmod 600 ~/.ssh/id_rsa
   # Start the SSH agent and add the key
