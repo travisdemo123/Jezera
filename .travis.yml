@@ -2,14 +2,10 @@ language: ruby
 rvm:
   - 2.7.6
 before_install:
-  # Decrypt the SSH key
-  - openssl aes-256-cbc -d -in id_rsa.enc -out ~/.ssh/id_rsa -k password
-  # Set the correct permissions for the SSH key
+  - openssl aes-256-cbc -d -in id_rsa.enc -out ~/.ssh/id_rsa -k my_secure_password
   - chmod 600 ~/.ssh/id_rsa
-  # Start the SSH agent and add the key
   - eval "$(ssh-agent -s)"
   - ssh-add ~/.ssh/id_rsa
-  # Configure SSH to skip host key checking for GitHub
   - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 script:
   - echo "Hello, Travis CI with Ruby!"
