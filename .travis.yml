@@ -1,0 +1,5 @@
+language: ruby
+rvm:
+  - 2.7.6
+script:
+  - echo "Hello, Travis CI with Ruby!"
