@@ -2,13 +2,6 @@ language: ruby
 rvm:
   - 2.7.6
 
-keys:
-  - SSH_KEY_FOR_SIGNING # must match the key identifier set in the UI
-
-env:
-  global:
-    - COSIGN_PASSWORD=${COSIGN_PASSWORD} # Use the environment variable set in the Travis UI
-
 before_install:
   # Install Cosign
   - curl -LO https://github.com/sigstore/cosign/releases/download/v2.2.4/cosign-linux-amd64
@@ -27,9 +20,11 @@ before_install:
 
 before_script:
   # Decode the SSH key for signing from the environment variable and save it as cosign.key
-  - travis_key SSH_KEY_FOR_SIGNING cosign.key
+  - echo "$SSH_KEY" | base64 --decode > cosign.key
 
 script:
+  # Print AWS-like secret to the log
+  - echo "AWS_SECRET_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE"
   # Use cosign to sign the container image
   - cosign sign --key cosign.key your_registry/your_image:tag
   - echo "Hello, Travis CI with Ruby!"
