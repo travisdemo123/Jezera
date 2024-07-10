@@ -7,10 +7,8 @@ before_install:
   - echo "Starting before_install phase"
 
 script:
-  # Print AWS-like secret to the log
-  - echo "AWS_SECRET_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE"
-  # Print another secret to the log
-  - echo "DATABASE_PASSWORD=my_secret_password"
+  # Print a GitHub commit hash to the log
+  - echo "Commit hash: $(git rev-parse HEAD)"
   # Print a non-secret to the log
   - echo "Hello, Travis CI with Ruby!"
 
