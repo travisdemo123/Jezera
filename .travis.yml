@@ -10,8 +10,8 @@ before_install:
   - echo "Starting before_install phase"
 
 script:
-  - echo "Commit hash: $(git rev-parse HEAD)" # Print the current Git commit hash to the log
-  - echo "Hello, Travis CI with Ruby!"        # Print a non-secret message to the log
+  - 'echo "Commit hash: $(git rev-parse HEAD)"' # Print the current Git commit hash to the log
+  - echo "Hello, Travis CI with Ruby!"          # Print a non-secret message to the log
 
 after_script:
   # Print a message to indicate the end of the script phase
