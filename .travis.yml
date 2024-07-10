@@ -2,6 +2,9 @@ language: ruby
 rvm:
   - 2.7.6
 
+dist: xenial  # Specify the build distribution
+os: linux     # Specify the operating system
+
 before_install:
   # Print a message to indicate the start of the before_install phase
   - echo "Starting before_install phase"
