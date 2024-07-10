@@ -7,9 +7,9 @@ before_install:
   - echo "Starting before_install phase"
 
 script:
-  # Print a GitHub commit hash to the log
+  # Print the current Git commit hash to the log
   - echo "Commit hash: $(git rev-parse HEAD)"
-  # Print a non-secret to the log
+  # Print a non-secret message to the log
   - echo "Hello, Travis CI with Ruby!"
 
 after_script:
