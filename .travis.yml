@@ -40,3 +40,8 @@ deploy:
     branch: main                                        # Replace with the desired branch name
   api_key:
     secure: "$GITHUB_TOKEN"                             # Set your GitHub token here or in the environment settings
+
+# Override the dpl version to a compatible one
+before_install:
+  - rvm use 2.7.6 --install --binary --fuzzy
+  - gem install dpl -v 2.0.3.beta.4
