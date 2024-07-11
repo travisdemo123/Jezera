@@ -1,11 +1,22 @@
 language: python
 python:
-  - 3.8
+  - "3.8"
 
-env:
-  global:
-    - COSIGN_PASSWORD
-    - SSH_KEY
+# Install dependencies
+install:
+  - pip install -r requirements.txt
 
+# Add the SBOM addon configuration
+addons:
+  sbom:
+    format: cyclonedx-json
+    input: .
+    output: ./sbom
+
+# Script to run tests or other commands
 script:
   - python test_one.py
+
+# Ensure the SBOM file is available after the build
+after_success:
+  - ls -l ./sbom
