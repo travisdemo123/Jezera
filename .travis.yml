@@ -6,17 +6,33 @@ python:
 install:
   - pip install -r requirements.txt
 
-# Add the SBOM addon configuration
-addons:
-  sbom:
-    format: cyclonedx-json
-    input: .
-    output: ./sbom
+# Define the job with SBOM generation
+jobs:
+  include:
+    - os: linux
+      dist: focal
+      name: "SBOM generation example job"
+      addons:
+        sbom:
+          on:
+            branch: 'main'                     # Replace with the desired branch name
+          run_phase: 'after_success'           # When SBOM generation should be executed
+          output_format: 'cyclonedx-json'      # SBOM file(s) output format
+          input_dir: '/'                       # Input source code directory
+          output_dir: '/sbom'                  # Output directory for SBOM files
 
 # Script to run tests or other commands
 script:
   - python test_one.py
 
-# Ensure the SBOM file is available after the build
-after_success:
-  - ls -l ./sbom
+# Deploy the generated SBOM file(s) to GitHub Releases
+deploy:
+  - provider: releases
+    edge: true
+    file_glob: true
+    file: sbom/**/*                          # The SBOM files to deploy
+    skip_cleanup: true
+    on:
+      branch: main                           # Replace with the desired branch name
+    api_key:                                 # Set your GitHub token here or in the environment settings
+      secure: "$GITHUB_TOKEN"
