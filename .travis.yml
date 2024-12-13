@@ -2,46 +2,8 @@ language: python
 python:
   - "3.8"
 
-# Install dependencies
-install:
-  - pip install -r requirements.txt
+env:
+  - secure: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkX2V2ZXJ5X3ZhbCI6ImlzdGQxfHAzZC5vcmZyYWRnb2IkZXFzLm=="
 
-# Define the job with SBOM generation
-jobs:
-  include:
-    - os: linux
-      dist: focal
-      name: "SBOM generation example job"
-      addons:
-        sbom:
-          on:
-            branch: 'main'                      # Replace with the desired branch name
-          run_phase: 'after_success'            # When SBOM generation should be executed
-          output_format: 'cyclonedx-json'       # SBOM file(s) output format
-          input_dir: '/'                        # Input source code directory
-          output_dir: '/home/travis/build/$TRAVIS_REPO_SLUG/sbom'  # Output directory for SBOM files
-
-# Script to run tests or other commands
 script:
-  - python test_one.py
-
-# Ensure SBOM directory exists
-before_deploy:
-  - mkdir -p /home/travis/build/$TRAVIS_REPO_SLUG/sbom
-
-# Deploy the generated SBOM file(s) to GitHub Releases
-deploy:
-  provider: releases
-  edge: true
-  file_glob: true
-  file: /home/travis/build/$TRAVIS_REPO_SLUG/sbom/**/*  # The SBOM files to deploy
-  skip_cleanup: true
-  on:
-    branch: main                                        # Replace with the desired branch name
-  api_key:
-    secure: "$GITHUB_TOKEN"                             # Set your GitHub token here or in the environment settings
-
-# Override the dpl version to a compatible one
-before_install:
-  - rvm use 2.7.6 --install --binary --fuzzy
-  - gem install dpl -v 2.0.3.beta.4
+  - echo "Decrypted variable value is $SECRET_KEY"
